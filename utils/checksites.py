@@ -6,7 +6,10 @@ from utils.database import DataBase as db
 async def check(bot):
     conn, cur = db.connection()
     users = db.check_site()
-    results = []  # Список для збереження результатів
+    results = [] 
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    } # Список для збереження результатів
     for user in users:
         cur.execute("SELECT pause FROM users WHERE uid = ?", (user[0],))
         pause = cur.fetchone()
@@ -17,7 +20,7 @@ async def check(bot):
             silent = cur.fetchone()
             for url in websites:
                 try:
-                    response = requests.get(url[0], timeout=10)  # Таймаут 10 секунд
+                    response = requests.get(url[0], timeout=10, headers=headers)  # Таймаут 10 секунд
                     if response.status_code == 200:
                         html = response.text
                         with open("a", "a", encoding="utf-8") as file:
@@ -44,9 +47,12 @@ async def check(bot):
 
 
 async def check_site(url):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    }
     results = []
     try:
-        response = requests.get(url, timeout=10) 
+        response = requests.get(url, timeout=10, headers=headers) 
         if response.status_code == 200:
             html = response.text
             if re.search(r'wp-content', html, re.IGNORECASE):

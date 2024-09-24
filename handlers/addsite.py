@@ -21,9 +21,12 @@ async def add_site_1step(call: CallbackQuery, state: FSMContext):
 
 @router.message(AddSite.wait_for_site)
 async def add_site_2step(msg: Message, state: FSMContext):
-    text = await check_site(msg.text)
-    await msg.answer(text = text, reply_markup = main_kb)
-    db.add_site(msg.from_user.id, msg.text)
+    
+    urls = [line.strip() for line in msg.text.splitlines() if line.strip()]
+    for url in urls:
+        text = await check_site(url)
+        await msg.answer(text = text, reply_markup = main_kb)
+        db.add_site(msg.from_user.id, url)
     await state.clear()
 
 
