@@ -39,11 +39,13 @@ async def check(bot):
             for r in results:
                 text += f"{r}\n\n" 
             results.clear() 
-            if silent[0] == 0:
-                await bot.send_message(chat_id=user[0], text=text, disable_web_page_preview=True)
-            elif silent[0] == 1:
-                await bot.send_message(chat_id = user[0], text = text, disable_web_page_preview = True, disable_notification=True)
-        
+            try:
+                if silent[0] == 0:
+                    await bot.send_message(chat_id=user[0], text=text, disable_web_page_preview=True)
+                elif silent[0] == 1:
+                    await bot.send_message(chat_id = user[0], text = text, disable_web_page_preview = True, disable_notification=True)
+            except:
+                pass
 
 
 async def check_site(url):
