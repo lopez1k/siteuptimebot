@@ -78,3 +78,35 @@ async def check_site(url):
     return text
             
         
+
+
+async def check_site_file(url):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    }
+    results = []
+    try:
+        response = requests.get(url, timeout=10, headers=headers) 
+        if response.status_code == 200:
+            html = response.text
+            if re.search(r'wp-content', html, re.IGNORECASE):
+                print(f"✅ {url} Сайт безпечний.")
+                results.append(f"✅Сайт безпечний")
+
+            else:
+                print(f"⚠️ {url}: Сайт недоступний. Статус код: {response.status_code}")
+                results.append(f"⚠️ Сайт недоступний. Статус код: {response.status_code}")
+        else:
+                print(f"⚠️ {url}: Сайт недоступний. Статус код: {response.status_code}")
+                results.append(f"⚠️ Сайт недоступний. Статус код: {response.status_code}")
+                               
+    except requests.RequestException as e:
+        print(f"⚠️ {url}: Помилка запиту - {str(e)}")
+        results.append(f"⚠️Помилка! Можливо, ви не вірно ввели URL адресу")
+    text = f"\n"
+    for r in results:
+        text += f"{r}\n\n" 
+    results.clear() 
+    return text
+            
+        

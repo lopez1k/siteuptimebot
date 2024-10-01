@@ -7,7 +7,8 @@ main_kb = InlineKeyboardMarkup(
             InlineKeyboardButton(text = "Додати сайт", callback_data="add_site")
         ],
         [
-            InlineKeyboardButton(text = "Мої сайти", callback_data="mysites")
+            InlineKeyboardButton(text = "Мої сайти", callback_data="mysites"),
+            InlineKeyboardButton(text = "Статистика в файлі", callback_data="file_stats")
         ],
         [
             InlineKeyboardButton(text = "⚙️Налаштування", callback_data='settings')
